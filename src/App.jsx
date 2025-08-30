@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import Search from "./components/Search.jsx";
 import Spinner from "./components/Spinner.jsx";
 import MovieCard from "./components/MovieCard.jsx";
+import MovieModal from "./components/MovieModal.jsx";
 import { useDebounce } from "react-use";
 import { updateSearchCount } from "./appwrite.js"; // Improve the search count locally
 
@@ -24,6 +25,8 @@ const App = () => {
   const [movieList, setMovieList] = useState([]);
   const [errorMessage, setErrorMessage] = useState("");
   const [isLoading, setIsLoading] = useState(false);
+
+  const [selectedMovie, setSelectedMovie] = useState(null);
 
   // Debounce the search term to prevent making too many API requests
   // by waiting for the user to stop typing for 500ms
@@ -107,9 +110,21 @@ const App = () => {
           ) : (
             <ul>
               {movieList.map((movie) => (
-                <MovieCard key={movie.id} movie={movie} />
+                <MovieCard
+                  key={movie.id}
+                  movie={movie}
+                  onClick={() => setSelectedMovie(movie)}
+                />
               ))}
             </ul>
+          )}
+
+          {/* Modal */}
+          {selectedMovie && (
+            <MovieModal
+              movie={selectedMovie}
+              onClose={() => setSelectedMovie(null)}
+            />
           )}
         </section>
       </div>

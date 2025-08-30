@@ -2,9 +2,13 @@ import React from "react";
 
 const MovieCard = ({
   movie: { title, vote_average, poster_path, release_date, original_language },
+  onClick,
 }) => {
   return (
-    <div className="movie-card">
+    <div
+      className="movie-card cursor-pointer transition-transform hover:scale-105"
+      onClick={onClick}
+    >
       <img
         src={
           poster_path
